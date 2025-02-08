@@ -1,11 +1,18 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const PokemonCardSchema = new mongoose.Schema({
+// Define the Pokemon schema
+const pokemonSchema = new mongoose.Schema({
   name: { type: String, required: true },
   set: { type: String, required: true },
-  condition: { type: String, required: true, enum: ["NM", "LP", "MP", "HP", "DMG"] },
-  quantity: { type: Number, required: true, min: 0 },
-  price: { type: Number, required: true }
-}, { timestamps: true });
+  number: { type: String, required: true },
+  rarity: { type: String, required: true },
+  type: { type: String, required: true },
+  condition: { type: String, required: true },
+  quantity: { type: Number, default: 0 },
+  price: { type: Number, required: true },
+});
 
-module.exports = mongoose.model("PokemonCard", PokemonCardSchema);
+// Create the Pokemon model and specify the collection name as 'inventory'
+const PokemonCard = mongoose.model('PokemonCard', pokemonSchema, 'inventory');  // Explicitly use 'inventory' collection
+
+module.exports = PokemonCard;
