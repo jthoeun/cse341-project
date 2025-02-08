@@ -1,0 +1,43 @@
+// LOCALHOST
+
+###
+GET http://localhost:8080/api/pokemon
+
+###
+POST http://localhost:8080/api/pokemon
+
+{
+  "name": "Charizard EX",
+  "set": "Scarlet & Violet: 151",
+  "number": "SV1",
+  "rarity": "Secret Illistration Rare",
+  "type": "Fire",
+  "condition": "Mint",
+  "quantity": 5,
+  "price": 126.00
+}
+
+### GET request to fetch a Pokémon card by ID
+GET http://localhost:8080/api/pokemon/67a70097aa504d0a1a35b8d8
+
+// RENDER PRODUCTION
+
+###
+GET https://cse341-project-og9x.onrender.com/api/pokemon
+
+###
+POST https://cse341-project-og9x.onrender.com/api/pokemon
+
+{
+  "name": "Umbreon ex",
+  "set": "Scarlet & Violet: Prismatic Evolutions",
+  "number": "PRE",
+  "rarity": "Secret Illistration Rare",
+  "type": "Dark",
+  "condition": "Mint",
+  "quantity": 1,
+  "price": 1518.76
+}
+
+### GET request to fetch a Pokémon card by ID
+GET https://cse341-project-og9x.onrender.com/api/pokemon/67a70097aa504d0a1a35b8d8
