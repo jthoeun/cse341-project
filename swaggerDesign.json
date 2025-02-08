@@ -7,7 +7,7 @@
     },
     "servers": [
       {
-        "url": "https://your-render-api-url.com",
+        "url": "https://cse341-project-og9x.onrender.com",
         "description": "Production server"
       }
     ],
