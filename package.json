@@ -1,0 +1,41 @@
+{
+  "name": "cse341-project",
+  "version": "1.0.0",
+  "description": "cse 341 personal project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jthoeun/cse341-project.git"
+  },
+  "author": "Johnny Thoeun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jthoeun/cse341-project/issues"
+  },
+  "homepage": "https://github.com/jthoeun/cse341-project#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "init": "^0.1.2",
+    "mongoose": "^8.10.0",
+    "npm": "^11.1.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "swagger-jsdoc": "^6.2.8"
+  }
+}

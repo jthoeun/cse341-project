@@ -1,0 +1,102 @@
+[
+    {
+      "name": "Charizard ex",
+      "set": "Scarlet & Violet 151",
+      "number": "201/165",
+      "rarity": "Secret Illustration Rare",
+      "type": "Fire",
+      "condition": "NM",
+      "quantity": 2,
+      "price": 89.99
+    },
+    {
+      "name": "Venusaur ex",
+      "set": "Scarlet & Violet 151",
+      "number": "003/165",
+      "rarity": "Double Rare",
+      "type": "Grass",
+      "condition": "NM",
+      "quantity": 3,
+      "price": 12.50
+    },
+    {
+      "name": "Blastoise ex",
+      "set": "Scarlet & Violet 151",
+      "number": "009/165",
+      "rarity": "Double Rare",
+      "type": "Water",
+      "condition": "LP",
+      "quantity": 4,
+      "price": 10.00
+    },
+    {
+      "name": "Alakazam ex",
+      "set": "Scarlet & Violet 151",
+      "number": "065/165",
+      "rarity": "Illustration Rare",
+      "type": "Psychic",
+      "condition": "NM",
+      "quantity": 1,
+      "price": 19.99
+    },
+    {
+      "name": "Mew ex",
+      "set": "Scarlet & Violet 151",
+      "number": "151/165",
+      "rarity": "Ultra Rare",
+      "type": "Psychic",
+      "condition": "NM",
+      "quantity": 5,
+      "price": 24.99
+    },
+    {
+      "name": "Zapdos ex",
+      "set": "Scarlet & Violet 151",
+      "number": "145/165",
+      "rarity": "Ultra Rare",
+      "type": "Lightning",
+      "condition": "NM",
+      "quantity": 2,
+      "price": 15.00
+    },
+    {
+      "name": "Snorlax",
+      "set": "Scarlet & Violet 151",
+      "number": "143/165",
+      "rarity": "Illustration Rare",
+      "type": "Colorless",
+      "condition": "NM",
+      "quantity": 3,
+      "price": 18.75
+    },
+    {
+      "name": "Mewtwo",
+      "set": "Scarlet & Violet 151",
+      "number": "150/165",
+      "rarity": "Rare Holo",
+      "type": "Psychic",
+      "condition": "NM",
+      "quantity": 6,
+      "price": 8.99
+    },
+    {
+      "name": "Pikachu",
+      "set": "Scarlet & Violet 151",
+      "number": "025/165",
+      "rarity": "Common",
+      "type": "Electric",
+      "condition": "NM",
+      "quantity": 10,
+      "price": 2.50
+    },
+    {
+      "name": "Bulbasaur",
+      "set": "Scarlet & Violet 151",
+      "number": "001/165",
+      "rarity": "Common",
+      "type": "Grass",
+      "condition": "NM",
+      "quantity": 8,
+      "price": 1.50
+    }
+  ]

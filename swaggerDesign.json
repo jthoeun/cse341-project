@@ -1,0 +1,203 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Pokémon Singles Inventory API",
+      "version": "1.0.0",
+      "description": "API to track inventory of Pokémon singles"
+    },
+    "servers": [
+      {
+        "url": "https://your-render-api-url.com",
+        "description": "Production server"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Pokemon",
+        "description": "API to manage Pokémon singles inventory"
+      }
+    ],
+    "paths": {
+      "/api/pokemon": {
+        "get": {
+          "summary": "Get all Pokémon singles",
+          "tags": ["Pokemon"],
+          "responses": {
+            "200": {
+              "description": "List of Pokémon singles",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Pokemon"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Add a new Pokémon card",
+          "tags": ["Pokemon"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pokemon"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Pokémon card added successfully"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          }
+        }
+      },
+      "/api/pokemon/{id}": {
+        "get": {
+          "summary": "Get a single Pokémon card by ID",
+          "tags": ["Pokemon"],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Pokémon card details",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Pokemon"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Card not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a Pokémon card",
+          "tags": ["Pokemon"],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "price": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Pokémon card updated successfully"
+            },
+            "404": {
+              "description": "Card not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a Pokémon card",
+          "tags": ["Pokemon"],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Pokémon card deleted successfully"
+            },
+            "404": {
+              "description": "Card not found"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Pokemon": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "example": "642b8d1a72b1d90a4f83c69a"
+            },
+            "name": {
+              "type": "string",
+              "example": "Charizard EX"
+            },
+            "set": {
+              "type": "string",
+              "example": "Scarlet & Violet 151"
+            },
+            "number": {
+              "type": "string",
+              "example": "SV151-009"
+            },
+            "rarity": {
+              "type": "string",
+              "example": "Secret Illustration Rare"
+            },
+            "type": {
+              "type": "string",
+              "example": "Fire"
+            },
+            "condition": {
+              "type": "string",
+              "example": "Near Mint"
+            },
+            "quantity": {
+              "type": "integer",
+              "example": 3
+            },
+            "price": {
+              "type": "number",
+              "example": 129.99
+            }
+          }
+        }
+      }
+    }
+  }
