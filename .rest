@@ -5,6 +5,7 @@ GET http://localhost:8080/api/pokemon
 
 ###
 POST http://localhost:8080/api/pokemon
+Content-Type: application/json
 
 {
   "name": "Charizard EX",
@@ -12,9 +13,9 @@ POST http://localhost:8080/api/pokemon
   "number": "SV1",
   "rarity": "Secret Illistration Rare",
   "type": "Fire",
-  "condition": "Mint",
+  "condition": "NM",
   "quantity": 5,
-  "price": 126.00
+  "price": 99.00
 }
 
 ### GET request to fetch a Pokémon card by ID
@@ -27,6 +28,7 @@ GET https://cse341-project-og9x.onrender.com/api/pokemon
 
 ###
 POST https://cse341-project-og9x.onrender.com/api/pokemon
+Content-Type: application/json
 
 {
   "name": "Umbreon ex",
@@ -34,10 +36,10 @@ POST https://cse341-project-og9x.onrender.com/api/pokemon
   "number": "PRE",
   "rarity": "Secret Illistration Rare",
   "type": "Dark",
-  "condition": "Mint",
+  "condition": "NM",
   "quantity": 1,
-  "price": 1518.76
+  "price": 1349.76
 }
 
 ### GET request to fetch a Pokémon card by ID
-GET https://cse341-project-og9x.onrender.com/api/pokemon/67a70097aa504d0a1a35b8d8
+GET https://cse341-project-og9x.onrender.com/api/pokemon/67a70464b3a5762b3884ae4c
