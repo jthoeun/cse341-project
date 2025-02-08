@@ -2,6 +2,7 @@
 
 ###
 GET http://localhost:8080/api/pokemon
+Content-Type: application/json
 
 ###
 POST http://localhost:8080/api/pokemon
@@ -20,6 +21,8 @@ Content-Type: application/json
 
 ### GET request to fetch a Pokémon card by ID
 GET http://localhost:8080/api/pokemon/67a70097aa504d0a1a35b8d8
+
+//[Place Holder for PUT request]
 
 // RENDER PRODUCTION
 
@@ -43,3 +46,5 @@ Content-Type: application/json
 
 ### GET request to fetch a Pokémon card by ID
 GET https://cse341-project-og9x.onrender.com/api/pokemon/67a70464b3a5762b3884ae4c
+
+//[Place Holder for PUT request]

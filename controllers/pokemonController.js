@@ -52,7 +52,7 @@ const updatePokemon = async (req, res) => {
     const updatedPokemon = await PokemonCard.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }  // Return the updated document
+      { new: true }
     );
     if (!updatedPokemon) {
       return res.status(404).json({ message: 'Pokemon not found' });
