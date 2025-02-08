@@ -12,7 +12,7 @@ const pokemonSchema = new mongoose.Schema({
   price: { type: Number, required: true },
 });
 
-// Create the Pokemon model and specify the collection name as 'inventory'
+
 const PokemonCard = mongoose.model('PokemonCard', pokemonSchema, 'inventory');  // Explicitly use 'inventory' collection
 
 module.exports = PokemonCard;

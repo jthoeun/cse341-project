@@ -14,13 +14,13 @@ Content-Type: application/json
   "number": "SV1",
   "rarity": "Secret Illistration Rare",
   "type": "Fire",
-  "condition": "NM",
-  "quantity": 5,
-  "price": 99.00
+  "condition": "LP",
+  "quantity": 1,
+  "price": 89.00
 }
 
 ### GET request to fetch a Pokémon card by ID
-GET http://localhost:8080/api/pokemon/67a70097aa504d0a1a35b8d8
+GET http://localhost:8080/api/pokemon/67a7825fa2f58f254cc40cb7
 
 //[Place Holder for PUT request]
 
