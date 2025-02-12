@@ -20,10 +20,10 @@ Content-Type: application/json
 }
 
 ### GET request to fetch a Pokémon card by ID
-GET http://localhost:8080/api/pokemon/67ac100c61d4b600ad492853 HTTP/1.1
+GET http://localhost:8080/api/pokemon/67ac18199f31b026665ca315 HTTP/1.1
 
 ###
-PUT http://localhost:8080/api/pokemon/67ac100c61d4b600ad492853  HTTP/1.1
+PUT http://localhost:8080/api/pokemon/67ac18199f31b026665ca315 HTTP/1.1
 content-type: application/json
 
 {
@@ -38,8 +38,7 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/pokemon/67ac12cff44e190d61ac3397
-
+DELETE http://localhost:8080/api/pokemon/67ac18199f31b026665ca315
 
 // RENDER PRODUCTION
 
