@@ -1,95 +1,38 @@
-const PokemonCard = require('../models/pokemoncard');  // Import the PokemonCard model
+const express = require('express');
+const mongoose = require('mongoose');
+const router = express.Router();
+const pokemonController = require('../controllers/pokemonController');
 
-// Get all Pokémon singles
-const getAllPokemon = async (req, res) => {
-  try {
-    const pokemons = await PokemonCard.find();  // Get all cards
-    res.status(200).json(pokemons);
-  } catch (error) {
-    console.error(error);  // Log the error
-    res.status(500).json({ message: 'Internal server error', error: error.message });
+// Middleware to validate ObjectId
+const validateObjectId = (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid ObjectId format' });
   }
+  next();
 };
 
-// Get a single Pokémon card by ID
-const getPokemonById = async (req, res) => {
-  try {
-    const pokemon = await PokemonCard.findById(req.params.id);  // Find by ID
-    if (!pokemon) {
-      return res.status(404).json({ message: 'Pokemon not found' });
-    }
-    res.status(200).json(pokemon);
-  } catch (error) {
-    console.error(error);  // Log the error
-    res.status(500).json({ message: 'Internal server error', error: error.message });
-  }
-};
-
-// Add a new Pokémon single
-const addPokemon = async (req, res) => {
-  const { name, set, number, rarity, type, condition, quantity, price } = req.body;
-
-  // If any required field is missing, return a bad request error
+// Middleware to validate POST/PUT data
+const validatePokemonData = (req, res, next) => {
+  const { name, set, number, rarity, type, condition, price } = req.body;
   if (!name || !set || !number || !rarity || !type || !condition || !price) {
     return res.status(400).json({ message: 'All fields are required' });
   }
-
-  const newPokemon = new PokemonCard({
-    name,
-    set,
-    number,
-    rarity,
-    type,
-    condition,
-    quantity,
-    price,
-  });
-
-  try {
-    const savedPokemon = await newPokemon.save();  // Save to MongoDB
-    res.status(201).json(savedPokemon);  // Successfully created
-  } catch (error) {
-    console.error(error);  // Log the error
-    res.status(400).json({ message: 'Failed to create Pokemon', error: error.message });
-  }
+  next();
 };
 
-// Update a Pokémon single
-const updatePokemon = async (req, res) => {
-  try {
-    const updatedPokemon = await PokemonCard.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedPokemon) {
-      return res.status(404).json({ message: 'Pokemon not found' });
-    }
-    res.status(200).json(updatedPokemon);  // Successfully updated
-  } catch (error) {
-    console.error(error);  // Log the error
-    res.status(400).json({ message: 'Failed to update Pokemon', error: error.message });
-  }
-};
+// GET all Pokémon singles
+router.get('/', pokemonController.getAllPokemon);
 
-// Delete a Pokémon single
-const deletePokemon = async (req, res) => {
-  try {
-    const deletedPokemon = await PokemonCard.findByIdAndDelete(req.params.id);
-    if (!deletedPokemon) {
-      return res.status(404).json({ message: 'Pokemon not found' });
-    }
-    res.status(200).json({ message: 'Pokemon deleted' });  // Successfully deleted
-  } catch (error) {
-    console.error(error);  // Log the error
-    res.status(500).json({ message: 'Failed to delete Pokemon', error: error.message });
-  }
-};
+// GET a single Pokémon card by ID
+router.get('/:id', validateObjectId, pokemonController.getPokemonById);
 
-module.exports = {
-  getAllPokemon,
-  getPokemonById,
-  addPokemon,
-  updatePokemon,
-  deletePokemon,
-};
+// POST a new Pokémon single
+router.post('/', validatePokemonData, pokemonController.addPokemon);
+
+// PUT to update a Pokémon single by ID
+router.put('/:id', validateObjectId, validatePokemonData, pokemonController.updatePokemon);
+
+// DELETE a Pokémon single by ID
+router.delete('/:id', validateObjectId, pokemonController.deletePokemon);
+
+module.exports = router;
