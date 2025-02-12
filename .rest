@@ -1,4 +1,4 @@
-// LOCALHOST
+// LOCALHOST Pokemon Card
 
 ###
 GET http://localhost:8080/api/pokemon HTTP/1.1
@@ -40,6 +40,47 @@ content-type: application/json
 ###
 DELETE http://localhost:8080/api/pokemon/67ac18199f31b026665ca315
 
+
+// LOCALHOST User
+
+###
+GET http://localhost:8080/api/user HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:8080/api/user HTTP/1.1
+Content-Type: application/json
+
+{
+      "username": "jtgamer",
+      "password": "Password123!",
+      "displayName": "Johnny T.",
+      "firstName": "Johnny",
+      "lastName": "Thoeun",
+      "email": "admin@test.com",
+      "accountType": "admin"
+    }
+
+### GET request to fetch a user by ID
+GET http://localhost:8080/api/user/ HTTP/1.1
+
+###
+PUT http://localhost:8080/api/user/ HTTP/1.1
+content-type: application/json
+
+{
+      "username": "jtgamer",
+      "password": "Password123!",
+      "displayName": "Johnny T.",
+      "firstName": "Johnny",
+      "lastName": "Thoeun",
+      "email": "admin@test.com",
+      "accountType": "admin"
+    }
+
+###
+DELETE http://localhost:8080/api/user/
+
 // RENDER PRODUCTION
 
 ###
@@ -61,10 +102,10 @@ Content-Type: application/json
 }
 
 ### GET request to fetch a Pokémon card by ID
-GET https://cse341-project-og9x.onrender.com/api/pokemon/67a70464b3a5762b3884ae4c
+GET https://cse341-project-og9x.onrender.com/api/pokemon/67ac196af782a9005f837ab9
 
 ###
-PUT https://cse341-project-og9x.onrender.com/api/pokemon/67a70464b3a5762b3884ae4c
+PUT https://cse341-project-og9x.onrender.com/api/pokemon/67ac196af782a9005f837ab9
 Content-Type: application/json
 
 {
@@ -79,4 +120,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE https://cse341-project-og9x.onrender.com/api/pokemon/67ac100c61d4b600ad492853
+DELETE https://cse341-project-og9x.onrender.com/api/pokemon/67ac196af782a9005f837ab9

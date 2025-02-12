@@ -1,0 +1,29 @@
+[
+    {
+      "username": "jtgamer",
+      "password": "Password123!",
+      "displayName": "Johnny T.",
+      "firstName": "Johnny",
+      "lastName": "Thoeun",
+      "email": "admin@test.com",
+      "accountType": "admin"
+    },
+    {
+      "username": "jane_smith",
+      "password": "SecurePass123!",
+      "displayName": "Jane Smith",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jane.smith@example.com",
+      "accountType": "user"
+    },
+    {
+      "username": "mike_jones",
+      "password": "AnotherPass2025!",
+      "displayName": "Mike Jones",
+      "firstName": "Mike",
+      "lastName": "Jones",
+      "email": "mike.jones@example.com",
+      "accountType": "user"
+    }
+  ]

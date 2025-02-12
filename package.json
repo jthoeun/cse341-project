@@ -24,6 +24,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "init": "^0.1.2",
+    "joi-password-complexity": "^5.2.0",
     "mongoose": "^8.10.0",
     "npm": "^11.1.0",
     "swagger-ui-express": "^5.0.1"
