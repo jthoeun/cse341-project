@@ -1,11 +1,11 @@
 // LOCALHOST
 
 ###
-GET http://localhost:8080/api/pokemon
+GET http://localhost:8080/api/pokemon HTTP/1.1
 Content-Type: application/json
 
 ###
-POST http://localhost:8080/api/pokemon
+POST http://localhost:8080/api/pokemon HTTP/1.1
 Content-Type: application/json
 
 {
@@ -16,13 +16,30 @@ Content-Type: application/json
   "type": "Fire",
   "condition": "LP",
   "quantity": 1,
-  "price": 89.00
+  "price": 95.00
 }
 
 ### GET request to fetch a Pokémon card by ID
-GET http://localhost:8080/api/pokemon/67a7825fa2f58f254cc40cb7
+GET http://localhost:8080/api/pokemon/67ac100c61d4b600ad492853 HTTP/1.1
 
-//[Place Holder for PUT request]
+###
+PUT http://localhost:8080/api/pokemon/67ac100c61d4b600ad492853  HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Charizard EX",
+  "set": "Scarlet & Violet: 151",
+  "number": "MEW",
+  "rarity": "Secret Illistration Rare",
+  "type": "Fire",
+  "condition": "Mint",
+  "quantity": 1,
+  "price": 110
+}
+
+###
+DELETE http://localhost:8080/api/pokemon/67ac12cff44e190d61ac3397
+
 
 // RENDER PRODUCTION
 
@@ -47,4 +64,20 @@ Content-Type: application/json
 ### GET request to fetch a Pokémon card by ID
 GET https://cse341-project-og9x.onrender.com/api/pokemon/67a70464b3a5762b3884ae4c
 
-//[Place Holder for PUT request]
+###
+PUT https://cse341-project-og9x.onrender.com/api/pokemon/67a70464b3a5762b3884ae4c
+Content-Type: application/json
+
+{
+  "name": "Umbreon ex",
+  "set": "Scarlet & Violet: Prismatic Evolutions",
+  "number": "PRE",
+  "rarity": "Secret Illistration Rare",
+  "type": "Dark",
+  "condition": "Mint",
+  "quantity": 1,
+  "price": 1450.00
+}
+
+###
+DELETE https://cse341-project-og9x.onrender.com/api/pokemon/67ac100c61d4b600ad492853

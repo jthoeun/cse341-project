@@ -1,4 +1,5 @@
 const PokemonCard = require('../models/pokemoncard');  // Import the PokemonCard model
+const mongoose = require('mongoose');
 
 // Get all Pokémon singles
 const getAllPokemon = async (req, res) => {
@@ -12,8 +13,15 @@ const getAllPokemon = async (req, res) => {
 
 // Get a single Pokémon card by ID
 const getPokemonById = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if the provided id is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid ObjectId format' });
+  }
+
   try {
-    const pokemon = await PokemonCard.findById(req.params.id);  // Find by ID
+    const pokemon = await PokemonCard.findById(id);  // Find by ID
     if (!pokemon) {
       return res.status(404).json({ message: 'Pokemon not found' });
     }
@@ -48,9 +56,16 @@ const addPokemon = async (req, res) => {
 
 // Update a Pokémon single
 const updatePokemon = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if the provided id is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid ObjectId format' });
+  }
+
   try {
     const updatedPokemon = await PokemonCard.findByIdAndUpdate(
-      req.params.id,
+      id,
       req.body,
       { new: true }
     );
@@ -65,8 +80,15 @@ const updatePokemon = async (req, res) => {
 
 // Delete a Pokémon single
 const deletePokemon = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if the ID is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid ObjectId format' });
+  }
+
   try {
-    const deletedPokemon = await PokemonCard.findByIdAndDelete(req.params.id);
+    const deletedPokemon = await PokemonCard.findByIdAndDelete(id);
     if (!deletedPokemon) {
       return res.status(404).json({ message: 'Pokemon not found' });
     }
