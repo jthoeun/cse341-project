@@ -35,9 +35,6 @@
                 }
               }
             }
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       },
@@ -49,7 +46,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pokemon"
+                "$ref": "#/components/schemas/PokemonCreate"
               }
             }
           }
@@ -59,10 +56,7 @@
             "description": "Pokémon card added successfully"
           },
           "400": {
-            "description": "Bad request, missing required fields"
-          },
-          "500": {
-            "description": "Internal server error"
+            "description": "Bad request"
           }
         }
       }
@@ -94,12 +88,6 @@
           },
           "404": {
             "description": "Card not found"
-          },
-          "400": {
-            "description": "Invalid ObjectId format"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       },
@@ -121,15 +109,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "quantity": {
-                    "type": "integer"
-                  },
-                  "price": {
-                    "type": "number"
-                  }
-                }
+                "$ref": "#/components/schemas/PokemonCreate"
               }
             }
           }
@@ -140,12 +120,6 @@
           },
           "404": {
             "description": "Card not found"
-          },
-          "400": {
-            "description": "Invalid ObjectId format or missing fields"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       },
@@ -168,12 +142,6 @@
           },
           "404": {
             "description": "Card not found"
-          },
-          "400": {
-            "description": "Invalid ObjectId format"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       }
@@ -188,6 +156,43 @@
             "type": "string",
             "example": "642b8d1a72b1d90a4f83c69a"
           },
+          "name": {
+            "type": "string",
+            "example": "Charizard EX"
+          },
+          "set": {
+            "type": "string",
+            "example": "Scarlet & Violet 151"
+          },
+          "number": {
+            "type": "string",
+            "example": "SV151-009"
+          },
+          "rarity": {
+            "type": "string",
+            "example": "Secret Illustration Rare"
+          },
+          "type": {
+            "type": "string",
+            "example": "Fire"
+          },
+          "condition": {
+            "type": "string",
+            "example": "Near Mint"
+          },
+          "quantity": {
+            "type": "integer",
+            "example": 3
+          },
+          "price": {
+            "type": "number",
+            "example": 129.99
+          }
+        }
+      },
+      "PokemonCreate": {
+        "type": "object",
+        "properties": {
           "name": {
             "type": "string",
             "example": "Charizard EX"
