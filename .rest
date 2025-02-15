@@ -41,47 +41,8 @@ content-type: application/json
 DELETE http://localhost:8080/api/pokemon/67ac18199f31b026665ca315
 
 
-// LOCALHOST User
 
-###
-GET http://localhost:8080/api/users/ HTTP/1.1
-Content-Type: application/json
-
-###
-POST http://localhost:8080/api/users HTTP/1.1
-Content-Type: application/json
-
-{
-      "username": "jtgamer",
-      "password": "Password123!",
-      "displayName": "Johnny T.",
-      "firstName": "Johnny",
-      "lastName": "Thoeun",
-      "email": "admin@test.com",
-      "accountType": "admin"
-    }
-
-### GET request to fetch a user by ID
-GET http://localhost:8080/api/users/jtgamer HTTP/1.1
-
-###
-PUT http://localhost:8080/api/users/ HTTP/1.1
-content-type: application/json
-
-{
-      "username": "jtgamer",
-      "password": "Password123!",
-      "displayName": "Johnny T.",
-      "firstName": "Johnny",
-      "lastName": "Thoeun",
-      "email": "admin@test.com",
-      "accountType": "admin"
-    }
-
-###
-DELETE http://localhost:8080/api/users/
-
-// RENDER PRODUCTION
+// RENDER PRODUCTION Pokemon
 
 ###
 GET https://cse341-project-og9x.onrender.com/api/pokemon
@@ -121,3 +82,84 @@ Content-Type: application/json
 
 ###
 DELETE https://cse341-project-og9x.onrender.com/api/pokemon/67ac196af782a9005f837ab9
+
+
+// LOCALHOST User
+
+###
+GET http://localhost:8080/api/users/ HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:8080/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+      "username": "jtgamer",
+      "password": "Password123!",
+      "displayName": "Johnny T.",
+      "firstName": "Johnny",
+      "lastName": "Thoeun",
+      "email": "admin@test.com",
+      "accountType": "admin"
+    }
+
+### GET request to fetch a user by ID
+GET http://localhost:8080/api/users/jtgamer HTTP/1.1
+
+###
+PUT http://localhost:8080/api/users/jtgamer HTTP/1.1
+content-type: application/json
+
+{
+      "username": "jtgamer",
+      "password": "Password123!",
+      "displayName": "Johnny T.",
+      "firstName": "Johnny",
+      "lastName": "Thoeun",
+      "email": "admin@test.net",
+      "accountType": "admin"
+    }
+
+###
+DELETE http://localhost:8080/api/users/jtgamer
+
+///Render Production user admin
+
+###
+GET https://cse341-project-og9x.onrender.com/api/users/ HTTP/1.1
+Content-Type: application/json
+
+###
+POST https://cse341-project-og9x.onrender.com/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+      "username": "jtgamer",
+      "password": "Password123!",
+      "displayName": "Johnny T.",
+      "firstName": "Johnny",
+      "lastName": "Thoeun",
+      "email": "admin@test.com",
+      "accountType": "admin"
+    }
+
+### GET request to fetch a user by ID
+GET https://cse341-project-og9x.onrender.com/api/users/jtgamer HTTP/1.1
+
+###
+PUT https://cse341-project-og9x.onrender.com/api/users/jtgamer HTTP/1.1
+content-type: application/json
+
+{
+      "username": "jtgamer",
+      "password": "Password123!",
+      "displayName": "Johnny T.",
+      "firstName": "Johnny",
+      "lastName": "Thoeun",
+      "email": "admin@test.net",
+      "accountType": "admin"
+    }
+
+###
+DELETE https://cse341-project-og9x.onrender.com/api/users/jtgamer
