@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
 
 // Middleware to validate POST/PUT data
 const validateUserData = (req, res, next) => {
@@ -25,5 +28,8 @@ router.put('/:username', validateUserData, userController.updateUser);
 
 // DELETE a user by username
 router.delete('/:username', userController.deleteUser);
+
+// POST login route
+router.post('/login', userController.loginUser);
 
 module.exports = router;

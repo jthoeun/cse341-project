@@ -1,4 +1,6 @@
 const User = require('../models/user'); // Import the User model correctly
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const passwordUtil = require('../util/passwordComplexityCheck');
 
 // Create a new user
@@ -14,11 +16,20 @@ module.exports.create = (req, res) => {
       return res.status(400).send({ message: passwordCheck.error.details[0].message });
     }
 
-    // Create user
-    const user = new User(req.body);
-    user.save()
-      .then((data) => res.status(201).send(data)) // Successfully created
-      .catch((err) => res.status(500).send({ message: err.message || 'Error creating user.' }));
+    // Hash password before saving
+    bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+      if (err) return res.status(500).send({ message: 'Error hashing password' });
+
+      // Create user
+      const user = new User({
+        ...req.body,
+        password: hashedPassword,
+      });
+
+      user.save()
+        .then((data) => res.status(201).send(data)) // Successfully created
+        .catch((err) => res.status(500).send({ message: err.message || 'Error creating user.' }));
+    });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -62,4 +73,43 @@ module.exports.deleteUser = (req, res) => {
       res.status(204).send(); // Successfully deleted
     })
     .catch((err) => res.status(500).send({ message: err.message || 'Error deleting user.' }));
+};
+
+// POST login route
+module.exports.loginUser = (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).send({ message: 'Username and password are required!' });
+  }
+
+  User.findOne({ username })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).send({ message: 'Invalid credentials' });
+      }
+
+      // Compare provided password with stored hashed password
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) {
+          return res.status(500).send({ message: 'Error comparing passwords' });
+        }
+
+        if (!isMatch) {
+          return res.status(400).send({ message: 'Invalid credentials' });
+        }
+
+        // Create JWT token
+        const token = jwt.sign(
+          { userId: user._id, username: user.username },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+
+        res.status(200).send({ message: 'Login successful', token });
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message || 'Error logging in' });
+    });
 };

@@ -20,10 +20,10 @@ Content-Type: application/json
 }
 
 ### GET request to fetch a Pokémon card by ID
-GET http://localhost:8080/api/pokemon/67ac18199f31b026665ca315 HTTP/1.1
+GET http://localhost:8080/api/pokemon/67b0d1acb6b58f6c9baf15ca HTTP/1.1
 
 ###
-PUT http://localhost:8080/api/pokemon/67ac18199f31b026665ca315 HTTP/1.1
+PUT http://localhost:8080/api/pokemon/67b0d1acb6b58f6c9baf15ca HTTP/1.1
 content-type: application/json
 
 {
@@ -38,7 +38,7 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/pokemon/67ac18199f31b026665ca315
+DELETE http://localhost:8080/api/pokemon/67b0d1acb6b58f6c9baf15ca
 
 
 
@@ -124,6 +124,15 @@ content-type: application/json
 ###
 DELETE http://localhost:8080/api/users/jtgamer
 
+###
+POST http://localhost:8080/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "jtgamer",
+  "password": "Password123!"
+}
+
 ///Render Production user admin
 
 ###
@@ -131,7 +140,7 @@ GET https://cse341-project-og9x.onrender.com/api/users/ HTTP/1.1
 Content-Type: application/json
 
 ###
-POST https://cse341-project-og9x.onrender.com/api/users HTTP/1.1
+POST https://cse341-project-og9x.onrender.com/api/users/ HTTP/1.1
 Content-Type: application/json
 
 {
@@ -141,7 +150,7 @@ Content-Type: application/json
       "firstName": "Johnny",
       "lastName": "Thoeun",
       "email": "admin@test.com",
-      "accountType": "admin"
+      "accountType": "user"
     }
 
 ### GET request to fetch a user by ID
