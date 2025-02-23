@@ -117,7 +117,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Invalid username or password"
+                      "example": "Invalid credentials"
                     }
                   }
                 }

@@ -171,4 +171,13 @@ content-type: application/json
     }
 
 ###
+POST https://cse341-project-og9x.onrender.com/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "jtgamer",
+  "password": "Password123!"
+}
+
+###
 DELETE https://cse341-project-og9x.onrender.com/api/users/jtgamer
