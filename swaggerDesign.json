@@ -65,6 +65,84 @@
         }
       }
     },
+    "/api/users/login": {
+      "post": {
+        "summary": "User Login",
+        "tags": ["User"],
+        "description": "Logs in a user and returns a JWT token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "john_doe"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Password123!"
+                  }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "your-jwt-token-here"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid username or password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Error logging in user."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/{username}": {
       "get": {
         "summary": "Get user by username",
@@ -152,17 +230,17 @@
     },
     "/api/pokemon": {
       "get": {
-        "summary": "Get all Pokémon singles",
+        "summary": "Get all Pokémon cards in inventory",
         "tags": ["Pokemon"],
         "responses": {
           "200": {
-            "description": "List of Pokémon singles",
+            "description": "List of Pokémon cards",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Pokemon"
+                    "$ref": "#/components/schemas/PokemonCard"
                   }
                 }
               }
@@ -171,31 +249,31 @@
         }
       },
       "post": {
-        "summary": "Add a new Pokémon card",
+        "summary": "Add a new Pokémon card to inventory",
         "tags": ["Pokemon"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PokemonCreate"
+                "$ref": "#/components/schemas/PokemonCardCreate"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Pokémon card added successfully"
+            "description": "Pokémon card added"
           },
           "400": {
-            "description": "Bad request"
+            "description": "Invalid request"
           }
         }
       }
     },
     "/api/pokemon/{id}": {
       "get": {
-        "summary": "Get a single Pokémon card by ID",
+        "summary": "Get Pokémon card by ID",
         "tags": ["Pokemon"],
         "parameters": [
           {
@@ -209,17 +287,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Pokémon card details",
+            "description": "Pokémon card found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pokemon"
+                  "$ref": "#/components/schemas/PokemonCard"
                 }
               }
             }
           },
           "404": {
-            "description": "Card not found"
+            "description": "Pokémon card not found"
           }
         }
       },
@@ -241,17 +319,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PokemonCreate"
+                "$ref": "#/components/schemas/PokemonCardCreate"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Pokémon card updated successfully"
+            "description": "Pokémon card updated"
           },
           "404": {
-            "description": "Card not found"
+            "description": "Pokémon card not found"
           }
         }
       },
@@ -270,10 +348,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Pokémon card deleted successfully"
+            "description": "Pokémon card deleted"
           },
           "404": {
-            "description": "Card not found"
+            "description": "Pokémon card not found"
           }
         }
       }
@@ -281,85 +359,6 @@
   },
   "components": {
     "schemas": {
-      "Pokemon": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "example": "642b8d1a72b1d90a4f83c69a"
-          },
-          "name": {
-            "type": "string",
-            "example": "Charizard EX"
-          },
-          "set": {
-            "type": "string",
-            "example": "Scarlet & Violet 151"
-          },
-          "number": {
-            "type": "string",
-            "example": "SV151-009"
-          },
-          "rarity": {
-            "type": "string",
-            "example": "Secret Illustration Rare"
-          },
-          "type": {
-            "type": "string",
-            "example": "Fire"
-          },
-          "condition": {
-            "type": "string",
-            "example": "Near Mint"
-          },
-          "quantity": {
-            "type": "integer",
-            "example": 3
-          },
-          "price": {
-            "type": "number",
-            "example": 129.99
-          }
-        }
-      },
-      "PokemonCreate": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Charizard EX"
-          },
-          "set": {
-            "type": "string",
-            "example": "Scarlet & Violet 151"
-          },
-          "number": {
-            "type": "string",
-            "example": "SV151-009"
-          },
-          "rarity": {
-            "type": "string",
-            "example": "Secret Illustration Rare"
-          },
-          "type": {
-            "type": "string",
-            "example": "Fire"
-          },
-          "condition": {
-            "type": "string",
-            "example": "Near Mint"
-          },
-          "quantity": {
-            "type": "integer",
-            "example": 3
-          },
-          "price": {
-            "type": "number",
-            "example": 129.99
-          }
-        },
-        "required": ["name", "set", "number", "rarity", "type", "condition", "price"]
-      },
       "User": {
         "type": "object",
         "properties": {
@@ -427,6 +426,44 @@
           }
         },
         "required": ["username", "password", "displayName", "firstName", "lastName", "email", "accountType"]
+      },
+      "PokemonCard": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "12345"
+          },
+          "name": {
+            "type": "string",
+            "example": "Pikachu"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "rarity": {
+            "type": "string",
+            "example": "Common"
+          }
+        }
+      },
+      "PokemonCardCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Pikachu"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "rarity": {
+            "type": "string",
+            "example": "Common"
+          }
+        }
       }
     }
   }
