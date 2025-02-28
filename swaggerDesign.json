@@ -11,11 +11,6 @@
       "description": "Production server"
     }
   ],
-  "security": [
-    {
-      "OAuth2": []
-    }
-  ],
   "tags": [
     {
       "name": "Pokemon",
@@ -191,11 +186,6 @@
       "get": {
         "summary": "Get all Pokémon cards in inventory",
         "tags": ["Pokemon"],
-        "security": [
-          {
-            "OAuth2": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "List of Pokémon cards",
@@ -215,11 +205,6 @@
       "post": {
         "summary": "Add a new Pokémon card to inventory",
         "tags": ["Pokemon"],
-        "security": [
-          {
-            "OAuth2": []
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -239,126 +224,9 @@
           }
         }
       }
-    },
-    "/api/pokemon/{id}": {
-      "get": {
-        "summary": "Get Pokémon card by ID",
-        "tags": ["Pokemon"],
-        "security": [
-          {
-            "OAuth2": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Pokémon card found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PokemonCard"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Pokémon card not found"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a Pokémon card",
-        "tags": ["Pokemon"],
-        "security": [
-          {
-            "OAuth2": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PokemonCardCreate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Pokémon card updated"
-          },
-          "404": {
-            "description": "Pokémon card not found"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a Pokémon card",
-        "tags": ["Pokemon"],
-        "security": [
-          {
-            "OAuth2": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Pokémon card deleted"
-          },
-          "404": {
-            "description": "Pokémon card not found"
-          }
-        }
-      }
     }
   },
   "components": {
-    "securitySchemes": {
-      "OAuth2": {
-        "type": "oauth2",
-        "description": "OAuth2 authentication with Google",
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
-            "tokenUrl": "https://oauth2.googleapis.com/token",
-            "scopes": {
-              "openid": "OpenID Connect scope",
-              "profile": "Access user profile info",
-              "email": "Access user email"
-            }
-          }
-        }
-      }
-    },
     "schemas": {
       "User": {
         "type": "object",

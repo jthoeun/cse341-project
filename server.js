@@ -30,7 +30,8 @@ app.use('/api', routes);
 app.use('/api/users', userRoutes);
 app.use('/auth', authRoutes); // Google authentication routes
 
-
+// Swagger UI setup for API documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Error handling middleware (catch-all)
 app.use((err, req, res, next) => {
