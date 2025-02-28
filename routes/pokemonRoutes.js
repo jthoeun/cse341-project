@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const pokemonController = require('../controllers/pokemonController');
+const authenticateJWT = require('../middleware/authMiddleware'); // Import JWT middleware
 
 // Middleware to validate ObjectId
 const validateObjectId = (req, res, next) => {
@@ -20,19 +21,19 @@ const validatePokemonData = (req, res, next) => {
   next();
 };
 
-// GET all Pokémon singles
+// GET all Pokémon singles (Public)
 router.get('/', pokemonController.getAllPokemon);
 
-// GET a single Pokémon card by ID
+// GET a single Pokémon card by ID (Public)
 router.get('/:id', validateObjectId, pokemonController.getPokemonById);
 
-// POST a new Pokémon single
-router.post('/', validatePokemonData, pokemonController.addPokemon);
+// POST a new Pokémon single (Protected: Requires JWT)
+router.post('/', authenticateJWT, validatePokemonData, pokemonController.addPokemon);
 
-// PUT to update a Pokémon single by ID
-router.put('/:id', validateObjectId, validatePokemonData, pokemonController.updatePokemon);
+// PUT to update a Pokémon single by ID (Protected: Requires JWT)
+router.put('/:id', authenticateJWT, validateObjectId, validatePokemonData, pokemonController.updatePokemon);
 
-// DELETE a Pokémon single by ID
-router.delete('/:id', validateObjectId, pokemonController.deletePokemon);
+// DELETE a Pokémon single by ID (Protected: Requires JWT)
+router.delete('/:id', authenticateJWT, validateObjectId, pokemonController.deletePokemon);
 
 module.exports = router;
