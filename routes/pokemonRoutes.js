@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const pokemonController = require('../controllers/pokemonController');
-const authenticateJWT = require('../middleware/authMiddleware'); // Import JWT middleware
+const { authenticateJWT } = require('../middleware/authMiddleware'); 
 
 // Middleware to validate ObjectId
 const validateObjectId = (req, res, next) => {

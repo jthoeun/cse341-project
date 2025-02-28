@@ -7,7 +7,7 @@ const getAllPokemon = async (req, res) => {
     const pokemons = await PokemonCard.find();  // Get all cards
     res.status(200).json(pokemons);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: `Error fetching Pokémon: ${error.message}` });
   }
 };
 
@@ -27,13 +27,19 @@ const getPokemonById = async (req, res) => {
     }
     res.status(200).json(pokemon);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: `Error fetching Pokémon: ${error.message}` });
   }
 };
 
 // Add a new Pokémon single
 const addPokemon = async (req, res) => {
   const { name, set, number, rarity, type, condition, quantity, price } = req.body;
+
+  // Check if the Pokémon already exists
+  const existingPokemon = await PokemonCard.findOne({ name, set, number });
+  if (existingPokemon) {
+    return res.status(400).json({ message: 'This Pokémon already exists in the inventory' });
+  }
 
   const newPokemon = new PokemonCard({
     name,
@@ -50,7 +56,7 @@ const addPokemon = async (req, res) => {
     const savedPokemon = await newPokemon.save();  // Save to MongoDB
     res.status(201).json(savedPokemon);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: `Error adding Pokémon: ${error.message}` });
   }
 };
 
@@ -74,7 +80,7 @@ const updatePokemon = async (req, res) => {
     }
     res.status(200).json(updatedPokemon);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: `Error updating Pokémon: ${error.message}` });
   }
 };
 
@@ -94,7 +100,7 @@ const deletePokemon = async (req, res) => {
     }
     res.status(200).json({ message: 'Pokemon deleted' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: `Error deleting Pokémon: ${error.message}` });
   }
 };
 
