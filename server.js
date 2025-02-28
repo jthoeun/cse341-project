@@ -3,8 +3,11 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swaggerDesign.json');
-const routes = require('./routes'); 
-const userRoutes = require('./routes/userRoutes'); // Ensure this is properly imported
+const routes = require('./routes');
+const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
+const passport = require('passport');
+require('./config/passport');
 
 dotenv.config();
 
@@ -17,10 +20,15 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Middleware for parsing JSON requests
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Initialize Passport
+app.use(passport.initialize());
 
 // Set up the routes
 app.use('/api', routes);
-app.use('/api/users', userRoutes); // Ensure this is properly added
+app.use('/api/users', userRoutes);
+app.use('/auth', authRoutes); // Google authentication routes
 
 // Swagger UI setup for API documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

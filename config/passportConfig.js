@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET, // Placeholder for JWT secret key! (add to the .env file!)
+  secretOrKey: process.env.JWT_SECRET, 
 };
 
 passport.use(

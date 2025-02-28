@@ -11,6 +11,11 @@
       "description": "Production server"
     }
   ],
+  "security": [
+    {
+      "OAuth2": []
+    }
+  ],
   "tags": [
     {
       "name": "Pokemon",
@@ -109,121 +114,75 @@
             }
           },
           "400": {
-            "description": "Invalid credentials",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid credentials"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Invalid credentials"
           },
           "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Error logging in user."
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Server error"
           }
         }
       }
     },
-    "/api/users/{username}": {
+    "/api/users/google": {
       "get": {
-        "summary": "Get user by username",
+        "summary": "Initiate Google OAuth authentication",
         "tags": ["User"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "username",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+        "responses": {
+          "302": {
+            "description": "Redirect to Google login"
           }
-        ],
+        }
+      }
+    },
+    "/api/users/google/callback": {
+      "get": {
+        "summary": "Callback route after Google OAuth authentication",
+        "tags": ["User"],
+        "description": "Handles the callback from Google OAuth and returns a JWT token.",
         "responses": {
           "200": {
-            "description": "User found",
+            "description": "Authentication successful",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication successful"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "your-jwt-token-here"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string", "example": "user-id" },
+                        "googleId": { "type": "string", "example": "google-id" },
+                        "displayName": { "type": "string", "example": "John Doe" },
+                        "email": { "type": "string", "example": "john.doe@example.com" },
+                        "accountType": { "type": "string", "example": "user" }
+                      }
+                    }
+                  }
                 }
               }
             }
           },
-          "404": {
-            "description": "User not found"
+          "401": {
+            "description": "Authentication failed"
           }
         }
-      },
-      "put": {
-        "summary": "Update a user by username",
+      }
+    },
+    "/api/users/logout": {
+      "get": {
+        "summary": "Logout route",
         "tags": ["User"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "username",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCreate"
-              }
-            }
-          }
-        },
+        "description": "Logs out the user and clears the token from the client.",
         "responses": {
           "200": {
-            "description": "User updated successfully"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a user by username",
-        "tags": ["User"],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "username",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User deleted successfully"
-          },
-          "404": {
-            "description": "User not found"
+            "description": "Logout successful"
           }
         }
       }
@@ -232,6 +191,11 @@
       "get": {
         "summary": "Get all Pokémon cards in inventory",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "OAuth2": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of Pokémon cards",
@@ -251,6 +215,11 @@
       "post": {
         "summary": "Add a new Pokémon card to inventory",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "OAuth2": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -275,6 +244,11 @@
       "get": {
         "summary": "Get Pokémon card by ID",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "OAuth2": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -304,6 +278,11 @@
       "put": {
         "summary": "Update a Pokémon card",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "OAuth2": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -336,6 +315,11 @@
       "delete": {
         "summary": "Delete a Pokémon card",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "OAuth2": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -358,6 +342,23 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth2 authentication with Google",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "tokenUrl": "https://oauth2.googleapis.com/token",
+            "scopes": {
+              "openid": "OpenID Connect scope",
+              "profile": "Access user profile info",
+              "email": "Access user email"
+            }
+          }
+        }
+      }
+    },
     "schemas": {
       "User": {
         "type": "object",
@@ -366,32 +367,11 @@
             "type": "string",
             "example": "john_doe"
           },
-          "password": {
-            "type": "string",
-            "example": "password123"
-          },
-          "displayName": {
-            "type": "string",
-            "example": "John Doe"
-          },
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "Doe"
-          },
           "email": {
             "type": "string",
             "example": "john.doe@example.com"
-          },
-          "accountType": {
-            "type": "string",
-            "example": "user"
           }
-        },
-        "required": ["username", "password", "displayName", "firstName", "lastName", "email", "accountType"]
+        }
       },
       "UserCreate": {
         "type": "object",
@@ -400,39 +380,23 @@
             "type": "string",
             "example": "john_doe"
           },
-          "password": {
-            "type": "string",
-            "example": "password123"
-          },
-          "displayName": {
-            "type": "string",
-            "example": "John Doe"
-          },
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "Doe"
-          },
           "email": {
             "type": "string",
             "example": "john.doe@example.com"
           },
-          "accountType": {
+          "password": {
             "type": "string",
-            "example": "user"
+            "example": "Password123!"
           }
         },
-        "required": ["username", "password", "displayName", "firstName", "lastName", "email", "accountType"]
+        "required": ["username", "email", "password"]
       },
       "PokemonCard": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "example": "12345"
+            "example": "pokemon-card-id"
           },
           "name": {
             "type": "string",
@@ -444,7 +408,7 @@
           },
           "rarity": {
             "type": "string",
-            "example": "Common"
+            "example": "Rare"
           }
         }
       },
@@ -461,9 +425,10 @@
           },
           "rarity": {
             "type": "string",
-            "example": "Common"
+            "example": "Rare"
           }
-        }
+        },
+        "required": ["name", "type", "rarity"]
       }
     }
   }

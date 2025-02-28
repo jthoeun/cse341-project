@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 require('dotenv').config();
 
@@ -9,36 +10,48 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.GOOGLE_CALLBACK_URL,
 }, async (token, tokenSecret, profile, done) => {
   try {
-    const existingUser = await User.findOne({ googleId: profile.id });
+    let user = await User.findOne({ googleId: profile.id });
 
-    if (existingUser) {
-      return done(null, existingUser);
+    if (!user) {
+      user = new User({
+        googleId: profile.id,
+        displayName: profile.displayName,
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        email: profile.emails[0].value,
+        accountType: 'user',
+      });
+
+      await user.save();
     }
 
-    const newUser = new User({
-      googleId: profile.id,
-      displayName: profile.displayName,
-      firstName: profile.name.givenName,
-      lastName: profile.name.familyName,
-      email: profile.emails[0].value,
-      accountType: 'user',
-    });
+    // Generate JWT token for the user
+    const jwtToken = jwt.sign(
+      { id: user._id, googleId: user.googleId, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
-    await newUser.save();
-    return done(null, newUser);
+    // Attach the token to the user object
+    user.token = jwtToken;
+
+    return done(null, user);
   } catch (error) {
     return done(error, null);
   }
 }));
 
 passport.serializeUser((user, done) => {
-  done(null, user.googleId);
+  done(null, user._id);
 });
 
-passport.deserializeUser((googleId, done) => {
-  User.findOne({ googleId }, (err, user) => {
-    done(err, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 module.exports = passport;

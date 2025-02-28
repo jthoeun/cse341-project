@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   accountType: { type: String, required: true },
-}, { collection: 'users' }); 
+  token: { type: String },
+}, { collection: 'users' });
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
