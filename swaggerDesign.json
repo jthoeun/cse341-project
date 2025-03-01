@@ -13,6 +13,10 @@
   ],
   "tags": [
     {
+      "name": "Auth",
+      "description": "API for user authentication and OAuth login"
+    },
+    {
       "name": "Pokemon",
       "description": "API to manage Pokémon singles inventory"
     },
@@ -22,6 +26,79 @@
     }
   ],
   "paths": {
+    "/auth/google": {
+      "get": {
+        "summary": "Google OAuth Login",
+        "description": "Redirects to Google OAuth login page. Use this endpoint to sign in with your Google account.",
+        "responses": {
+          "302": {
+            "description": "Redirects to Google OAuth page"
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "summary": "Google OAuth Callback",
+        "description": "Handles the callback from Google OAuth and redirects the user to the application.",
+        "responses": {
+          "200": {
+            "description": "Authentication successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Authentication successful"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "your-generated-jwt-token-here"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "user-id"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "user-name"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "user-email"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "summary": "Logout and invalidate JWT token",
+        "description": "Logs out the current user and invalidates the JWT token.",
+        "responses": {
+          "200": {
+            "description": "Successfully logged out"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/users": {
       "get": {
         "summary": "Get all users",
@@ -252,45 +329,6 @@
           },
           "404": {
             "description": "Pokémon card not found"
-          }
-        }
-      }
-    },
-    "/auth/google": {
-      "get": {
-        "summary": "Google OAuth Login",
-        "description": "Redirects to Google OAuth login page. Use this endpoint to sign in with your Google account.",
-        "responses": {
-          "302": {
-            "description": "Redirects to Google OAuth page"
-          }
-        }
-      }
-    },
-    "/auth/google/callback": {
-      "get": {
-        "summary": "Google OAuth Callback",
-        "description": "Handles the callback from Google OAuth and redirects the user to the application.",
-        "responses": {
-          "302": {
-            "description": "Redirects to the application after Google OAuth authentication"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/auth/logout": {
-      "get": {
-        "summary": "Logout and invalidate JWT token",
-        "description": "Logs out the current user and invalidates the JWT token.",
-        "responses": {
-          "200": {
-            "description": "Successfully logged out"
-          },
-          "500": {
-            "description": "Internal server error"
           }
         }
       }
