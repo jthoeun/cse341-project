@@ -29,8 +29,8 @@
     "/auth/google": {
       "get": {
         "summary": "Google OAuth Login",
-        "tags":["Auth"],
-        "description": "Redirects to Google OAuth login page. Use this endpoint to sign in with your Google account.",
+        "tags": ["Auth"],
+        "description": "Redirects to Google OAuth login page. Use this endpoint to sign in with your Google account. Will require to copy & past request URL and log in to google using a .byui.edu email",
         "responses": {
           "302": {
             "description": "Redirects to Google OAuth page"
@@ -41,8 +41,8 @@
     "/auth/google/callback": {
       "get": {
         "summary": "Google OAuth Callback",
-        "tags":["Auth"],
-        "description": "Handles the callback from Google OAuth and redirects the user to the application.",
+        "tags": ["Auth"],
+        "description": "Handles the callback from Google OAuth and redirects the user to the application. (call back with token is shown after login. copy and paste token to the Authorize button",
         "responses": {
           "200": {
             "description": "Authentication successful",
@@ -90,7 +90,7 @@
     "/auth/logout": {
       "get": {
         "summary": "Logout and invalidate JWT token",
-        "tags":["Auth"],
+        "tags": ["Auth"],
         "description": "Logs out the current user and invalidates the JWT token.",
         "responses": {
           "200": {
@@ -106,6 +106,11 @@
       "get": {
         "summary": "Get all users",
         "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of users",
@@ -151,45 +156,8 @@
       }
     },
     "/api/users/{username}": {
-  "get": {
-    "summary": "Get user by username",
-    "tags": ["User"],
-    "security": [
-      {
-        "BearerAuth": []
-      }
-    ],
-    "parameters": [
-      {
-        "name": "username",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        },
-        "description": "Username of the user to retrieve"
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "User details retrieved successfully",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/User"
-            }
-          }
-        }
-      },
-      "404": {
-        "description": "User not found"
-      }
-    }
-  }
-},
-    "/api/users/{id}": {
-      "put": {
-        "summary": "Update user information",
+      "get": {
+        "summary": "Get user by username",
         "tags": ["User"],
         "security": [
           {
@@ -198,7 +166,42 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Username of the user to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update user by username",
+        "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
             "in": "path",
             "required": true,
             "schema": {
@@ -221,7 +224,7 @@
             "description": "User updated successfully"
           },
           "400": {
-            "description": "Invalid request"
+            "description": "Bad request"
           },
           "404": {
             "description": "User not found"
@@ -229,7 +232,7 @@
         }
       },
       "delete": {
-        "summary": "Delete a user",
+        "summary": "Delete user by username",
         "tags": ["User"],
         "security": [
           {
@@ -238,7 +241,7 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "username",
             "in": "path",
             "required": true,
             "schema": {
@@ -258,11 +261,11 @@
     },
     "/api/pokemon": {
       "get": {
-        "summary": "Get all Pokémon cards in inventory",
+        "summary": "Get all Pokémon singles",
         "tags": ["Pokemon"],
         "responses": {
           "200": {
-            "description": "List of Pokémon cards",
+            "description": "List of all Pokémon singles",
             "content": {
               "application/json": {
                 "schema": {
@@ -277,7 +280,7 @@
         }
       },
       "post": {
-        "summary": "Add a new Pokémon card to inventory",
+        "summary": "Add a new Pokémon single",
         "tags": ["Pokemon"],
         "security": [
           {
@@ -296,7 +299,7 @@
         },
         "responses": {
           "201": {
-            "description": "Pokémon card added"
+            "description": "Pokémon single added successfully"
           },
           "400": {
             "description": "Invalid request"
@@ -305,40 +308,38 @@
       }
     },
     "/api/pokemon/{id}": {
-  "get": {
-    "summary": "Get Pokémon card by ID",
-    "tags": ["Pokemon"],
-    "parameters": [
-      {
-        "name": "id",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string"
-        },
-        "description": "ID of the Pokémon card to retrieve"
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Pokémon card details retrieved successfully",
-        "content": {
-          "application/json": {
+      "get": {
+        "summary": "Get Pokémon single by ID",
+        "tags": ["Pokemon"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
-              "$ref": "#/components/schemas/PokemonCard"
+              "type": "string"
+            },
+            "description": "ID of the Pokémon single to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pokémon single details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PokemonCard"
+                }
+              }
             }
+          },
+          "404": {
+            "description": "Pokémon single not found"
           }
         }
       },
-      "404": {
-        "description": "Pokémon card not found"
-      }
-    }
-  }
-},
-    "/api/pokemon/{id}": {
       "put": {
-        "summary": "Update Pokémon card details",
+        "summary": "Update Pokémon single",
         "tags": ["Pokemon"],
         "security": [
           {
@@ -367,18 +368,18 @@
         },
         "responses": {
           "200": {
-            "description": "Pokémon card updated successfully"
+            "description": "Pokémon single updated successfully"
           },
           "400": {
             "description": "Invalid request"
           },
           "404": {
-            "description": "Pokémon card not found"
+            "description": "Pokémon single not found"
           }
         }
       },
       "delete": {
-        "summary": "Delete a Pokémon card",
+        "summary": "Delete Pokémon single",
         "tags": ["Pokemon"],
         "security": [
           {
@@ -397,16 +398,23 @@
         ],
         "responses": {
           "200": {
-            "description": "Pokémon card deleted successfully"
+            "description": "Pokémon single deleted successfully"
           },
           "404": {
-            "description": "Pokémon card not found"
+            "description": "Pokémon single not found"
           }
         }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "User": {
         "type": "object",
@@ -417,11 +425,15 @@
           },
           "username": {
             "type": "string",
-            "example": "john_doe"
+            "example": "jtgamer"
           },
           "email": {
             "type": "string",
-            "example": "john.doe@example.com"
+            "example": "admin@test.com"
+          },
+          "accountType": {
+            "type": "string",
+            "example": "admin"
           }
         }
       },
@@ -430,33 +442,61 @@
         "properties": {
           "username": {
             "type": "string",
-            "example": "john_doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john.doe@example.com"
+            "example": "jtgamer"
           },
           "password": {
             "type": "string",
-            "example": "Password123!"
+            "example": "password123!"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Johnny T."
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Johnny"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Thoeun"
+          },
+          "email": {
+            "type": "string",
+            "example": "admin@test.com"
+          },
+          "accountType": {
+            "type": "string",
+            "example": "admin"
           }
         },
-        "required": ["username", "email", "password"]
+        "required": ["username", "password", "email"]
       },
       "UserUpdate": {
         "type": "object",
         "properties": {
           "username": {
             "type": "string",
-            "example": "john_doe"
+            "example": "jtgamer"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Johnny T."
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Johnny"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Thoeun"
           },
           "email": {
             "type": "string",
-            "example": "john.doe@example.com"
+            "example": "admin@test.com"
           },
-          "password": {
+          "accountType": {
             "type": "string",
-            "example": "NewPassword123!"
+            "example": "admin"
           }
         }
       },
@@ -465,123 +505,117 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "pokemon-card-id"
+            "example": "pokemon-id"
           },
           "name": {
             "type": "string",
-            "example": "Pikachu"
+            "example": "Umbreon ex"
           },
           "set": {
             "type": "string",
-            "example": "Base Set"
+            "example": "Scarlet & Violet: Prismatic Evolutions"
           },
           "number": {
             "type": "string",
-            "example": "1"
+            "example": "PRE"
           },
           "rarity": {
             "type": "string",
-            "example": "Rare"
+            "example": "Secret Illustration Rare"
           },
           "type": {
             "type": "string",
-            "example": "Electric"
+            "example": "Dark"
           },
           "condition": {
             "type": "string",
             "example": "Mint"
           },
           "quantity": {
-            "type": "number",
-            "example": 5
+            "type": "integer",
+            "example": 1
           },
           "price": {
-            "type": "number",
-            "example": 19.99
+            "type": "integer",
+            "example": 1450
           }
-        }
+        },
+        "required": ["name", "set", "number", "rarity", "type", "condition", "quantity", "price"]
       },
       "PokemonCardCreate": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "example": "Pikachu"
+            "example": "Umbreon ex"
           },
           "set": {
             "type": "string",
-            "example": "Base Set"
+            "example": "Scarlet & Violet: Prismatic Evolutions"
           },
           "number": {
             "type": "string",
-            "example": "1"
+            "example": "PRE"
           },
           "rarity": {
             "type": "string",
-            "example": "Rare"
+            "example": "Secret Illustration Rare"
           },
           "type": {
             "type": "string",
-            "example": "Electric"
+            "example": "Dark"
           },
           "condition": {
             "type": "string",
             "example": "Mint"
           },
           "quantity": {
-            "type": "number",
-            "example": 5
+            "type": "integer",
+            "example": 1
           },
           "price": {
-            "type": "number",
-            "example": 19.99
+            "type": "integer",
+            "example": 1450
           }
         },
-        "required": ["name", "set", "number", "rarity", "type", "condition", "price"]
+        "required": ["name", "set", "number", "rarity", "type", "condition", "quantity", "price"]
       },
       "PokemonCardUpdate": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "example": "Pikachu"
+            "example": "Umbreon ex"
           },
           "set": {
             "type": "string",
-            "example": "Base Set"
+            "example": "Scarlet & Violet: Prismatic Evolutions"
           },
           "number": {
             "type": "string",
-            "example": "1"
+            "example": "PRE"
           },
           "rarity": {
             "type": "string",
-            "example": "Rare"
+            "example": "Secret Illustration Rare"
           },
           "type": {
             "type": "string",
-            "example": "Electric"
+            "example": "Dark"
           },
           "condition": {
             "type": "string",
             "example": "Mint"
           },
           "quantity": {
-            "type": "number",
-            "example": 5
+            "type": "integer",
+            "example": 1
           },
           "price": {
-            "type": "number",
-            "example": 19.99
+            "type": "integer",
+            "example": 1450
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "BearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
