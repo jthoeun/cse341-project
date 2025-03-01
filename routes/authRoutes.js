@@ -5,7 +5,10 @@ const User = require('../models/user'); // Make sure this path is correct
 
 const router = express.Router();
 
-// Assuming Google OAuth is set up in Passport.js
+// Google authentication route
+router.get('/google', passport.authenticate('google', {
+  scope: ['profile', 'email']
+}));
 
 // Callback route after Google authentication
 router.get('/auth/google/callback', async (req, res) => {
