@@ -65,54 +65,61 @@
         }
       }
     },
-    "/api/users/login": {
-      "post": {
-        "summary": "User Login",
+    "/api/users/{id}": {
+      "put": {
+        "summary": "Update user information",
         "tags": ["User"],
-        "description": "Logs in a user and returns a JWT token.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "example": "john_doe"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "Password123!"
-                  }
-                },
-                "required": ["username", "password"]
+                "$ref": "#/components/schemas/UserUpdate"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Successful login",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string",
-                      "example": "your-jwt-token-here"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "User updated successfully"
           },
           "400": {
-            "description": "Invalid credentials"
+            "description": "Invalid request"
           },
-          "500": {
-            "description": "Server error"
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -121,11 +128,17 @@
       "get": {
         "summary": "Initiate Google OAuth authentication",
         "tags": ["User"],
+        "description": "Redirects the user to Google's OAuth login page.",
         "responses": {
           "302": {
             "description": "Redirect to Google login"
           }
-        }
+        },
+        "security": [
+          {
+            "GoogleOAuth": []
+          }
+        ]
       }
     },
     "/api/users/google/callback": {
@@ -148,16 +161,6 @@
                     "token": {
                       "type": "string",
                       "example": "your-jwt-token-here"
-                    },
-                    "user": {
-                      "type": "object",
-                      "properties": {
-                        "id": { "type": "string", "example": "user-id" },
-                        "googleId": { "type": "string", "example": "google-id" },
-                        "displayName": { "type": "string", "example": "John Doe" },
-                        "email": { "type": "string", "example": "john.doe@example.com" },
-                        "accountType": { "type": "string", "example": "user" }
-                      }
                     }
                   }
                 }
@@ -167,19 +170,12 @@
           "401": {
             "description": "Authentication failed"
           }
-        }
-      }
-    },
-    "/api/users/logout": {
-      "get": {
-        "summary": "Logout route",
-        "tags": ["User"],
-        "description": "Logs out the user and clears the token from the client.",
-        "responses": {
-          "200": {
-            "description": "Logout successful"
+        },
+        "security": [
+          {
+            "GoogleOAuth": []
           }
-        }
+        ]
       }
     },
     "/api/pokemon": {
@@ -231,72 +227,54 @@
       "User": {
         "type": "object",
         "properties": {
-          "username": {
-            "type": "string",
-            "example": "john_doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john.doe@example.com"
-          }
+          "id": { "type": "string", "example": "user-id" },
+          "username": { "type": "string", "example": "john_doe" },
+          "email": { "type": "string", "example": "john.doe@example.com" }
         }
       },
       "UserCreate": {
         "type": "object",
         "properties": {
-          "username": {
-            "type": "string",
-            "example": "john_doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john.doe@example.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "Password123!"
-          }
+          "username": { "type": "string", "example": "john_doe" },
+          "email": { "type": "string", "example": "john.doe@example.com" },
+          "password": { "type": "string", "example": "Password123!" }
         },
         "required": ["username", "email", "password"]
       },
       "PokemonCard": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "example": "pokemon-card-id"
-          },
-          "name": {
-            "type": "string",
-            "example": "Pikachu"
-          },
-          "type": {
-            "type": "string",
-            "example": "Electric"
-          },
-          "rarity": {
-            "type": "string",
-            "example": "Rare"
-          }
+          "id": { "type": "string", "example": "pokemon-card-id" },
+          "name": { "type": "string", "example": "Pikachu" },
+          "type": { "type": "string", "example": "Electric" },
+          "rarity": { "type": "string", "example": "Rare" }
         }
       },
       "PokemonCardCreate": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "example": "Pikachu"
-          },
-          "type": {
-            "type": "string",
-            "example": "Electric"
-          },
-          "rarity": {
-            "type": "string",
-            "example": "Rare"
-          }
+          "name": { "type": "string", "example": "Pikachu" },
+          "type": { "type": "string", "example": "Electric" },
+          "rarity": { "type": "string", "example": "Rare" }
         },
         "required": ["name", "type", "rarity"]
+      }
+    },
+    "securitySchemes": {
+      "GoogleOAuth": {
+        "type": "oauth2",
+        "description": "Google OAuth 2.0 authentication",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "tokenUrl": "https://oauth2.googleapis.com/token",
+            "scopes": {
+              "openid": "Authenticate using Google",
+              "profile": "Access user's profile information",
+              "email": "Access user's email address"
+            }
+          }
+        }
       }
     }
   }
