@@ -124,60 +124,6 @@
         }
       }
     },
-    "/api/users/google": {
-      "get": {
-        "summary": "Initiate Google OAuth authentication",
-        "tags": ["User"],
-        "description": "Redirects the user to Google's OAuth login page.",
-        "responses": {
-          "302": {
-            "description": "Redirect to Google login"
-          }
-        },
-        "security": [
-          {
-            "GoogleOAuth": []
-          }
-        ]
-      }
-    },
-    "/api/users/google/callback": {
-      "get": {
-        "summary": "Callback route after Google OAuth authentication",
-        "tags": ["User"],
-        "description": "Handles the callback from Google OAuth and returns a JWT token.",
-        "responses": {
-          "200": {
-            "description": "Authentication successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Authentication successful"
-                    },
-                    "token": {
-                      "type": "string",
-                      "example": "your-jwt-token-here"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Authentication failed"
-          }
-        },
-        "security": [
-          {
-            "GoogleOAuth": []
-          }
-        ]
-      }
-    },
     "/api/pokemon": {
       "get": {
         "summary": "Get all Pokémon cards in inventory",
@@ -279,6 +225,31 @@
           }
         }
       }
+    },
+    "/auth/google": {
+      "get": {
+        "summary": "Google OAuth Login",
+        "description": "Redirects to Google OAuth login page. Use this endpoint to sign in with your Google account.",
+        "responses": {
+          "302": {
+            "description": "Redirects to Google OAuth page"
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "summary": "Google OAuth Callback",
+        "description": "Handles the callback from Google OAuth and redirects the user to the application.",
+        "responses": {
+          "302": {
+            "description": "Redirects to the application after Google OAuth authentication"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -286,66 +257,108 @@
       "User": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "user-id" },
-          "username": { "type": "string", "example": "john_doe" },
-          "email": { "type": "string", "example": "john.doe@example.com" }
+          "id": {
+            "type": "string",
+            "example": "user-id"
+          },
+          "username": {
+            "type": "string",
+            "example": "john_doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@example.com"
+          }
         }
       },
       "UserCreate": {
         "type": "object",
         "properties": {
-          "username": { "type": "string", "example": "john_doe" },
-          "email": { "type": "string", "example": "john.doe@example.com" },
-          "password": { "type": "string", "example": "Password123!" }
+          "username": {
+            "type": "string",
+            "example": "john_doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Password123!"
+          }
         },
         "required": ["username", "email", "password"]
       },
       "UserUpdate": {
         "type": "object",
         "properties": {
-          "username": { "type": "string", "example": "john_doe" },
-          "email": { "type": "string", "example": "john.doe@example.com" },
-          "password": { "type": "string", "example": "NewPassword123!" }
+          "username": {
+            "type": "string",
+            "example": "john_doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "NewPassword123!"
+          }
         }
       },
       "PokemonCard": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "example": "pokemon-card-id" },
-          "name": { "type": "string", "example": "Pikachu" },
-          "type": { "type": "string", "example": "Electric" },
-          "rarity": { "type": "string", "example": "Rare" }
+          "id": {
+            "type": "string",
+            "example": "pokemon-card-id"
+          },
+          "name": {
+            "type": "string",
+            "example": "Pikachu"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "rarity": {
+            "type": "string",
+            "example": "Rare"
+          }
         }
       },
       "PokemonCardCreate": {
         "type": "object",
         "properties": {
-          "name": { "type": "string", "example": "Pikachu" },
-          "type": { "type": "string", "example": "Electric" },
-          "rarity": { "type": "string", "example": "Rare" }
+          "name": {
+            "type": "string",
+            "example": "Pikachu"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "rarity": {
+            "type": "string",
+            "example": "Rare"
+          }
         },
         "required": ["name", "type", "rarity"]
       },
       "PokemonCardUpdate": {
         "type": "object",
         "properties": {
-          "name": { "type": "string", "example": "Raichu" },
-          "type": { "type": "string", "example": "Electric" },
-          "rarity": { "type": "string", "example": "Ultra Rare" }
-        }
-      }
-    },
-    "securitySchemes": {
-      "GoogleOAuth": {
-        "type": "oauth2",
-        "description": "OAuth2 login for Google",
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://accounts.google.com/o/oauth2/v2/auth",
-            "tokenUrl": "https://oauth2.googleapis.com/token",
-            "scopes": {
-              "openid": "View your basic profile info"
-            }
+          "name": {
+            "type": "string",
+            "example": "Raichu"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "rarity": {
+            "type": "string",
+            "example": "Ultra Rare"
           }
         }
       }
