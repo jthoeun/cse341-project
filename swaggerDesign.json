@@ -394,7 +394,7 @@
         "properties": {
           "name": {
             "type": "string",
-            "example": "Raichu"
+            "example": "Pikachu"
           },
           "type": {
             "type": "string",
@@ -402,7 +402,7 @@
           },
           "rarity": {
             "type": "string",
-            "example": "Ultra Rare"
+            "example": "Rare"
           }
         }
       }
@@ -414,10 +414,5 @@
         "bearerFormat": "JWT"
       }
     }
-  },
-  "security": [
-    {
-      "BearerAuth": []
-    }
-  ]
+  }
 }
