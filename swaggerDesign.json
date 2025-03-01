@@ -29,6 +29,7 @@
     "/auth/google": {
       "get": {
         "summary": "Google OAuth Login",
+        "tags":["Auth"],
         "description": "Redirects to Google OAuth login page. Use this endpoint to sign in with your Google account.",
         "responses": {
           "302": {
@@ -40,6 +41,7 @@
     "/auth/google/callback": {
       "get": {
         "summary": "Google OAuth Callback",
+        "tags":["Auth"],
         "description": "Handles the callback from Google OAuth and redirects the user to the application.",
         "responses": {
           "200": {
@@ -88,6 +90,7 @@
     "/auth/logout": {
       "get": {
         "summary": "Logout and invalidate JWT token",
+        "tags":["Auth"],
         "description": "Logs out the current user and invalidates the JWT token.",
         "responses": {
           "200": {
