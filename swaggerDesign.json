@@ -220,6 +220,65 @@
           }
         }
       }
+    },
+    "/api/pokemon/{id}": {
+      "put": {
+        "summary": "Update Pokémon card details",
+        "tags": ["Pokemon"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PokemonCardUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pokémon card updated successfully"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Pokémon card not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Pokémon card",
+        "tags": ["Pokemon"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pokémon card deleted successfully"
+          },
+          "404": {
+            "description": "Pokémon card not found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -241,6 +300,14 @@
         },
         "required": ["username", "email", "password"]
       },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string", "example": "john_doe" },
+          "email": { "type": "string", "example": "john.doe@example.com" },
+          "password": { "type": "string", "example": "NewPassword123!" }
+        }
+      },
       "PokemonCard": {
         "type": "object",
         "properties": {
@@ -258,20 +325,26 @@
           "rarity": { "type": "string", "example": "Rare" }
         },
         "required": ["name", "type", "rarity"]
+      },
+      "PokemonCardUpdate": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "Raichu" },
+          "type": { "type": "string", "example": "Electric" },
+          "rarity": { "type": "string", "example": "Ultra Rare" }
+        }
       }
     },
     "securitySchemes": {
       "GoogleOAuth": {
         "type": "oauth2",
-        "description": "Google OAuth 2.0 authentication",
+        "description": "OAuth2 login for Google",
         "flows": {
           "authorizationCode": {
-            "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/v2/auth",
             "tokenUrl": "https://oauth2.googleapis.com/token",
             "scopes": {
-              "openid": "Authenticate using Google",
-              "profile": "Access user's profile information",
-              "email": "Access user's email address"
+              "openid": "View your basic profile info"
             }
           }
         }

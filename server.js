@@ -7,6 +7,7 @@ const routes = require('./routes');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const passport = require('passport');
+const User = require('./models/user');
 require('./config/passport');
 
 dotenv.config();
@@ -24,6 +25,37 @@ app.use(express.urlencoded({ extended: true }));
 
 // Initialize Passport
 app.use(passport.initialize());
+
+// Google OAuth login route (Step 1)
+app.get('/api/users/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// Google OAuth callback route (Step 2)
+app.get('/api/users/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  async (req, res) => {
+    try {
+      // Check if the user exists in the database
+      let user = await User.findOne({ googleId: req.user.googleId });
+
+      if (!user) {
+        // Create a new user if not found
+        user = new User({
+          googleId: req.user.googleId,
+          username: req.user.displayName,
+          email: req.user.emails[0].value,
+        });
+        await user.save();
+      }
+
+      // Redirect to the desired page after successful login
+      res.redirect('/dashboard'); // Example redirect to the dashboard
+
+    } catch (error) {
+      console.error('Error during Google OAuth callback:', error);
+      res.status(500).send('Something went wrong');
+    }
+  }
+);
 
 // Set up the routes
 app.use('/api', routes);
