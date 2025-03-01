@@ -402,13 +402,33 @@
             "type": "string",
             "example": "Pikachu"
           },
-          "type": {
+          "set": {
             "type": "string",
-            "example": "Electric"
+            "example": "Base Set"
+          },
+          "number": {
+            "type": "string",
+            "example": "1"
           },
           "rarity": {
             "type": "string",
             "example": "Rare"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "condition": {
+            "type": "string",
+            "example": "Mint"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 5
+          },
+          "price": {
+            "type": "number",
+            "example": 19.99
           }
         }
       },
@@ -419,16 +439,36 @@
             "type": "string",
             "example": "Pikachu"
           },
-          "type": {
+          "set": {
             "type": "string",
-            "example": "Electric"
+            "example": "Base Set"
+          },
+          "number": {
+            "type": "string",
+            "example": "1"
           },
           "rarity": {
             "type": "string",
             "example": "Rare"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "condition": {
+            "type": "string",
+            "example": "Mint"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 5
+          },
+          "price": {
+            "type": "number",
+            "example": 19.99
           }
         },
-        "required": ["name", "type", "rarity"]
+        "required": ["name", "set", "number", "rarity", "type", "condition", "price"]
       },
       "PokemonCardUpdate": {
         "type": "object",
@@ -437,13 +477,33 @@
             "type": "string",
             "example": "Pikachu"
           },
-          "type": {
+          "set": {
             "type": "string",
-            "example": "Electric"
+            "example": "Base Set"
+          },
+          "number": {
+            "type": "string",
+            "example": "1"
           },
           "rarity": {
             "type": "string",
             "example": "Rare"
+          },
+          "type": {
+            "type": "string",
+            "example": "Electric"
+          },
+          "condition": {
+            "type": "string",
+            "example": "Mint"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 5
+          },
+          "price": {
+            "type": "number",
+            "example": 19.99
           }
         }
       }
