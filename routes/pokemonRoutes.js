@@ -27,13 +27,13 @@ router.get('/', pokemonController.getAllPokemon);
 // GET a single Pokémon card by ID (Public)
 router.get('/:id', validateObjectId, pokemonController.getPokemonById);
 
-// POST a new Pokémon single (Protected: Requires JWT)
+// POST a new Pokémon single (Protected: Requires JWT/OAuth)
 router.post('/', authenticateJWT, validatePokemonData, pokemonController.addPokemon);
 
-// PUT to update a Pokémon single by ID (Protected: Requires JWT)
+// PUT to update a Pokémon single by ID (Protected: Requires JWT/OAuth)
 router.put('/:id', authenticateJWT, validateObjectId, validatePokemonData, pokemonController.updatePokemon);
 
-// DELETE a Pokémon single by ID (Protected: Requires JWT)
+// DELETE a Pokémon single by ID (Protected: Requires JWT/OAuth)
 router.delete('/:id', authenticateJWT, validateObjectId, pokemonController.deletePokemon);
 
 module.exports = router;

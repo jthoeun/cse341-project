@@ -2,6 +2,11 @@ const User = require('../models/user'); // Import the User model correctly
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passwordUtil = require('../util/passwordComplexityCheck');
+const { OAuth2Client } = require('google-auth-library');
+require('dotenv').config();
+
+// Google OAuth Client
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Create a new user
 module.exports.create = (req, res) => {
@@ -112,4 +117,67 @@ module.exports.loginUser = (req, res) => {
     .catch((err) => {
       res.status(500).send({ message: err.message || 'Error logging in' });
     });
+};
+
+// Google OAuth Login - Redirects user to Google OAuth consent screen
+module.exports.googleLogin = (req, res) => {
+  const redirectUri = client.generateAuthUrl({
+    access_type: 'offline',
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'],
+  });
+  res.redirect(redirectUri); 
+};
+
+// Google OAuth Callback - Handles the callback after successful login
+module.exports.googleCallback = async (req, res) => {
+  const { code } = req.query;
+
+  try {
+    // Get the tokens from Google
+    const { tokens } = await client.getToken(code);
+    client.setCredentials(tokens);
+
+    // Use the token to get user info
+    const ticket = await client.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: process.env.GOOGLE_CLIENT_ID, 
+    });
+
+    const payload = ticket.getPayload();
+    const { email, sub: googleId } = payload;
+
+    // Check if the user already exists
+    let user = await User.findOne({ googleId });
+
+    if (!user) {
+      // If user doesn't exist, create a new one
+      user = new User({
+        username: email.split('@')[0],
+        email,
+        googleId,
+        displayName: payload.name,
+        accountType: 'user',
+      });
+      await user.save();
+    }
+
+    // Generate JWT token
+    const accessToken = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    
+    res.cookie('access_token', accessToken, { httpOnly: true, secure: true }); // HttpOnly for security
+
+    
+    res.redirect('/'); 
+
+  } catch (error) {
+    console.error('Error during Google OAuth callback:', error);
+    res.status(500).json({ message: 'Google authentication failed', error });
+  }
+};
+
+// Logout - Invalidate JWT token
+module.exports.logout = (req, res) => {
+  res.clearCookie('access_token'); // Clear the JWT token cookie
+  res.status(200).json({ message: 'Successfully logged out' });
 };

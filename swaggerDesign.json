@@ -45,6 +45,11 @@
       "post": {
         "summary": "Create a new user",
         "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -69,6 +74,11 @@
       "put": {
         "summary": "Update user information",
         "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -104,6 +114,11 @@
       "delete": {
         "summary": "Delete a user",
         "tags": ["User"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -147,6 +162,11 @@
       "post": {
         "summary": "Add a new Pokémon card to inventory",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -171,6 +191,11 @@
       "put": {
         "summary": "Update Pokémon card details",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -206,6 +231,11 @@
       "delete": {
         "summary": "Delete a Pokémon card",
         "tags": ["Pokemon"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -244,6 +274,20 @@
         "responses": {
           "302": {
             "description": "Redirects to the application after Google OAuth authentication"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "summary": "Logout and invalidate JWT token",
+        "description": "Logs out the current user and invalidates the JWT token.",
+        "responses": {
+          "200": {
+            "description": "Successfully logged out"
           },
           "500": {
             "description": "Internal server error"
@@ -362,6 +406,18 @@
           }
         }
       }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
 }
